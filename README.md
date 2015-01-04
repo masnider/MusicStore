@@ -35,6 +35,11 @@ This project is part of ASP.NET vNext. You can find samples, documentation and g
 * Set KRE_ENV environment variable to "SocialTesting"
 * Run ```k test```
 
+### Deploy on Heroku
+To deploy MusicStore on Heroku, simply click the button below:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
 ###NTLM authentication
 More information at src/MusicStore/StartupNtlmAuthentication.cs
 **NOTE: Ntlm authentication works only on desktop CLR right now.
