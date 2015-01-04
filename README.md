@@ -40,6 +40,8 @@ To deploy MusicStore on Heroku, simply click the button below:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
+Note that older MVC versions have casing bugs that may cause views to not resolve correctly on Heroku. Use the `dev` branch to use the latest MVC version with MusicStore.
+
 ###NTLM authentication
 More information at src/MusicStore/StartupNtlmAuthentication.cs
 **NOTE: Ntlm authentication works only on desktop CLR right now.
