@@ -44,13 +44,25 @@ namespace MusicStore.Spa
                 options.ModelValidatorProviders.Add(typeof(BuddyValidatorProvider));
             });
 
-            // Add EF services to the service container
-            services.AddEntityFramework()
-                .AddSqlServer()
-                .AddDbContext<MusicStoreContext>(options =>
-                {
-                    options.UseSqlServer(Configuration.Get("Data:DefaultConnection:ConnectionString"));
-                });
+            //Sql client not available on mono
+            var useInMemoryStore = Type.GetType("Mono.Runtime") != null;
+
+            // Add EF services to the services container
+            if (useInMemoryStore)
+            {
+                services.AddEntityFramework(Configuration)
+                        .AddInMemoryStore()
+                        .AddDbContext<MusicStoreContext>();
+            }
+            else
+            {
+                services.AddEntityFramework(Configuration)
+                        .AddSqlServer()
+                        .AddDbContext<MusicStoreContext>(options =>
+                        {
+			    options.UseSqlServer(Configuration.Get("Data:DefaultConnection:ConnectionString"));
+                        });
+            }
 
             // Add Identity services to the services container
             services.AddIdentity<ApplicationUser, IdentityRole>(Configuration)
