@@ -36,13 +36,28 @@ namespace MusicStore.Spa
             // Add MVC services to the service container
             services.AddMvc();
 
-            // Add EF services to the service container
-            services.AddEntityFramework()
-                .AddSqlServer()
-                .AddDbContext<MusicStoreContext>(options =>
-                {
-                    options.UseSqlServer(Configuration.Get("Data:DefaultConnection:ConnectionString"));
-                });
+            //If this type is present - we're on mono
+            var runningOnMono = Type.GetType("Mono.Runtime") != null;
+
+            // Add EF services to the services container
+            if (runningOnMono)
+            {
+                services.AddEntityFramework()
+                        .AddInMemoryStore()
+                        .AddDbContext<MusicStoreContext>(options =>
+                        {
+                            options.UseInMemoryStore();
+                        }); ;
+            }
+            else
+            {
+                services.AddEntityFramework()
+                        .AddSqlServer()
+                        .AddDbContext<MusicStoreContext>(options =>
+                        {
+                            options.UseSqlServer(Configuration.Get("Data:DefaultConnection:ConnectionString"));
+                        });
+            }
 
             // Add Identity services to the services container
             services.AddDefaultIdentity<MusicStoreContext, ApplicationUser, IdentityRole>(Configuration);
