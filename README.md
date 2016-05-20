@@ -1,3 +1,11 @@
+## Preamble: Testing SQL Server on Linux with Docker
+
+This is branch of MusicStore dev branch that tests running in Docker on Linux, using Microsoft SQL Server for Linux (also running in Docker container). Running this requires access to the private [SQL Server on Linux beta](https://www.microsoft.com/en-us/server-cloud/sql-server-on-linux.aspx).
+
+	docker pull private-repo.microsoft.com/mssql-private-preview/mssql-server:latest
+	docker tag private-repo.microsoft.com/mssql-private-preview/mssql-server:latest mssql-server:latest
+	docker-compose up
+
 # MusicStore application
 
 AppVeyor: [![AppVeyor](https://ci.appveyor.com/api/projects/status/ja8a7j6jscj7k3xa/branch/dev?svg=true)](https://ci.appveyor.com/project/aspnetci/MusicStore/branch/dev)
