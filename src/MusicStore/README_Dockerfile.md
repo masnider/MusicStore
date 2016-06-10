@@ -18,27 +18,46 @@ docker run -d -p 1433:1433 sqlexpress
 
 
 ## Build MusicStore
+
+Be sure to update config.json with:
+- correct internal IP & password for SQL instance
+
 From musicstore\src\musicstore:
 ```
 dotnet restore
 dotnet publish -o .containerbuild
 ```
 
-Be sure to update config.json with:
-- correct internal IP & password for SQL instance
+## Deploy using WebListener/Kestrel
 
 
-## Build Container for MusicStore
+### Build Container for MusicStore
 ```
 docker build -t musicstore .
 ```
 
-## Run Container
+### Run Container
 ```
 docker run -p 5000:5000 -t -d musicstore
 ```
 
-### Current Issues
+
+## Deploy using IIS
+### Build Container for MusicStore with IIS
+```
+docker build -t musicstore-iis -f Dockerfile.iis .
+```
+
+
+### Run Container
+```
+docker run -p 80:80 -t -d musicstore-iis
+docker run -p 80:80 -it musicstore-iis cmd
+```
+
+
+# Current Issues
+
 With SQL connection string for SQL Express in a local container:
 ```
 Unhandled Exception: System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocati
@@ -88,3 +107,7 @@ Unhandled Exception: System.Runtime.InteropServices.SEHException: External compo
    at Microsoft.AspNetCore.Hosting.WebHostExtensions.Run(IWebHost host)
    at MusicStore.Program.Main(String[] args)
 ```
+
+At this point:
+- MusicStore DB was created
+- Tables have been created and populated
