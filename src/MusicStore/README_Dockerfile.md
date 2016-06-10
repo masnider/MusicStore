@@ -1,7 +1,7 @@
 
 
-
-## Build Prerequisites
+## Prerequisites
+### Build .Net Core
 ```
 mkdir \dotnetcore-servercore
 cd \dotnetcore-servercore
@@ -9,15 +9,26 @@ wget https://raw.githubusercontent.com/PatrickLang/dotnet-docker/windowsImages/1
 docker build -t dotnetcore:windowsservercore .
 ```
 
-## Build
+### Start SQL Express container
+Get Dockerfile from https://github.com/brogersyh/Dockerfiles-for-windows/tree/master/sqlexpress , build it
+
+```
+docker run -d -p 1433:1433 sqlexpress
+```
+
+
+## Build MusicStore
 From musicstore\src\musicstore:
 ```
 dotnet restore
 dotnet publish -o .containerbuild
 ```
 
+Be sure to update config.json with:
+- correct internal IP & password for SQL instance
 
-## Build Container
+
+## Build Container for MusicStore
 ```
 docker build -t musicstore .
 ```
