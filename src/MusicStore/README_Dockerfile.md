@@ -62,3 +62,18 @@ ion: Unknown error '3'.
 At this point:
 - MusicStore DB was created
 - Tables have been created and populated
+
+
+On a later build:
+```
+Unhandled Exception: System.Runtime.InteropServices.SEHException: External component has thrown an exception.
+   at Interop.mincore.IsNormalizedString(Int32 normForm, String source, Int32 length)
+   at System.StringNormalizationExtensions.IsNormalized(String value, NormalizationForm normalizationForm)
+   at Microsoft.AspNetCore.Server.Kestrel.Http.PathNormalizer.NormalizeToNFC(String path)
+   at Microsoft.AspNetCore.Server.Kestrel.ServerAddress.FromUrl(String url)
+   at Microsoft.AspNetCore.Server.Kestrel.KestrelServer.Start[TContext](IHttpApplication`1 application)
+   at Microsoft.AspNetCore.Hosting.Internal.WebHost.Start()
+   at Microsoft.AspNetCore.Hosting.WebHostExtensions.Run(IWebHost host, CancellationToken token, String shutdownMessage)
+   at Microsoft.AspNetCore.Hosting.WebHostExtensions.Run(IWebHost host)
+   at MusicStore.Program.Main(String[] args)
+```
