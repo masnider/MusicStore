@@ -33,6 +33,7 @@
       "Views",
       "wwwroot",
       "config.json",
+      "hosting.json",
       "web.config"
     ]
   },
