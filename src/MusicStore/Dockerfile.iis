@@ -3,6 +3,6 @@ RUN powershell.exe -Command Add-WindowsFeature Web-Server
 ADD .containerbuild/ /musicstore
 WORKDIR c:/musicstore
 #CMD dotnet.exe c:\musicstore\musicstore.dll
-
+RUN mkdir c:\\musicstore\\logs
 RUN powershell.exe -Command "Import-Module IISAdministration; \
                              New-WebApplication -PhysicalPath C:\musicstore -Name MusicStore -Site \"Default Web Site\""
