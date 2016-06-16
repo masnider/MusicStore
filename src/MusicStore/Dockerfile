@@ -1,4 +1,4 @@
-FROM dotnet:1.0.0-rc2
+FROM dotnetcore:windowsservercore
 ADD .containerbuild/ /musicstore
 WORKDIR c:/musicstore
 CMD dotnet.exe c:\musicstore\musicstore.dll

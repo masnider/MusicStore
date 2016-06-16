@@ -5,15 +5,16 @@
 ```
 mkdir \dotnetcore-servercore
 cd \dotnetcore-servercore
-wget https://raw.githubusercontent.com/PatrickLang/dotnet-docker/windowsImages/1.0.0-rc2/windowsservercore/x64/core/Dockerfile Dockerfile
+wget https://raw.githubusercontent.com/PatrickLang/dotnet-docker/windowsImages/1.0.0-rc2/windowsservercore/x64/core/Dockerfile -outfile Dockerfile
 docker build -t dotnetcore:windowsservercore .
 ```
 
 ### Start SQL Express container
-Get Dockerfile from https://github.com/brogersyh/Dockerfiles-for-windows/tree/master/sqlexpress , build it
 
+> TODO: switch to microsoft/... official image
 ```
-docker run -d -p 1433:1433 sqlexpress
+
+docker run -d ... microsoft/mssql-...
 ```
 
 
