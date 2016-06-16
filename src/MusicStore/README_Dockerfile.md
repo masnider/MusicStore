@@ -1,7 +1,11 @@
 
 
 ## Prerequisites
-### Build .Net Core
+
+### Install 1.0.0-preview1 sdk
+https://go.microsoft.com/fwlink/?LinkID=798398 
+
+### Build .Net Core Image
 ```
 mkdir \dotnetcore-servercore
 cd \dotnetcore-servercore
