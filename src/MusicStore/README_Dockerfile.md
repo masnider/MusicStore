@@ -2,8 +2,11 @@
 
 ## Prerequisites
 
-### Install 1.0.0-preview1 sdk
-https://go.microsoft.com/fwlink/?LinkID=798398 
+### Install 1.0.0-preview1 sdk on your laptop
+```
+Invoke-WebRequest https://go.microsoft.com/fwlink/?LinkID=798398 -outfile DotNetCore.1.0.0.RC2-SDK.Preview1-x64.exe
+.\DotNetCore.1.0.0.RC2-SDK.Preview1-x64.exe
+```
 
 ### Build .Net Core Image
 ```
