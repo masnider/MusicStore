@@ -29,12 +29,12 @@ namespace MusicStore
 
         public StartupSocialTesting(IHostingEnvironment hostingEnvironment)
         {
-            // Below code demonstrates usage of multiple configuration sources. For instance a setting say 'setting1' is found in both the registered sources,
-            // then the later source will win. By this way a Local config can be overridden by a different setting while deployed remotely.
+            //Below code demonstrates usage of multiple configuration sources. For instance a setting say 'setting1' is found in both the registered sources,
+            //then the later source will win. By this way a Local config can be overridden by a different setting while deployed remotely.
             var builder = new ConfigurationBuilder()
                 .SetBasePath(hostingEnvironment.ContentRootPath)
                 .AddJsonFile("config.json")
-                .AddEnvironmentVariables() // All environment variables in the process's context flow in as configuration values.
+                .AddEnvironmentVariables() //All environment variables in the process's context flow in as configuration values.
                 .AddJsonFile("configoverride.json", optional: true); // Used to override some configuration parameters that cannot be overridden by environment.
 
             Configuration = builder.Build();
@@ -47,11 +47,8 @@ namespace MusicStore
         {
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
-            // Sql client not available on mono
-            var useInMemoryStore = _platform.IsRunningOnMono;
-
             // Add EF services to the services container
-            if (useInMemoryStore)
+            if (_platform.UseInMemoryStore)
             {
                 services.AddDbContext<MusicStoreContext>(options =>
                             options.UseInMemoryDatabase());
@@ -110,11 +107,6 @@ namespace MusicStore
             app.UseDeveloperExceptionPage();
 
             app.UseDatabaseErrorPage();
-
-            // Add the runtime information page that can be used by developers
-            // to see what packages are used by the application
-            // default path is: /runtimeinfo
-            app.UseRuntimeInfoPage();
 
             // Configure Session.
             app.UseSession();
