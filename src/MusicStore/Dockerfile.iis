@@ -1,4 +1,4 @@
-FROM dotnetcore:windowsservercore
+FROM microsoft/dotnet-1.0.0-windowsservercore-core
 RUN powershell.exe -Command Add-WindowsFeature Web-Server
 
 ADD .containerbuild/ /musicstore

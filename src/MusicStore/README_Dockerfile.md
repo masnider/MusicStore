@@ -2,18 +2,10 @@
 
 ## Prerequisites
 
-### Install 1.0.0-preview1 sdk on your laptop
+### Install 1.0.0-preview2 sdk on your laptop
 ```
-Invoke-WebRequest https://go.microsoft.com/fwlink/?LinkID=798398 -outfile DotNetCore.1.0.0.RC2-SDK.Preview1-x64.exe
-.\DotNetCore.1.0.0.RC2-SDK.Preview1-x64.exe
-```
-
-### Build .Net Core Image
-```
-mkdir \dotnetcore-servercore
-cd \dotnetcore-servercore
-wget https://raw.githubusercontent.com/PatrickLang/dotnet-docker/windowsImages/1.0.0-rc2/windowsservercore/x64/core/Dockerfile -outfile Dockerfile
-docker build -t dotnetcore:windowsservercore .
+Invoke-WebRequest https://go.microsoft.com/fwlink/?LinkID=809122 -outfile DotNetCore.1.0.0-SDK.Preview2-x64.exe
+.\DotNetCore.1.0.0-SDK.Preview2-x64.exe
 ```
 
 ### Start SQL Express container
@@ -74,7 +66,7 @@ docker run -p 80:80 -it musicstore-iis cmd
 # Current Issues
 
 ## Exceptions in System.StringNormalizationExtensions.Normalize
-
+This issue is in Windows Server 2016 Technical Preview 5. Rebooting the container host will resolve it. It's fixed in a later build but I don't have a specific number yet.
 
 With SQL connection string for SQL Express in a local container:
 ```
