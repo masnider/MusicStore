@@ -2,32 +2,29 @@
 
 ## Prerequisites
 
-### Install 1.0.0-preview1 sdk on your laptop
+### Install 1.0.0-preview2 sdk on your laptop
 ```
-Invoke-WebRequest https://go.microsoft.com/fwlink/?LinkID=798398 -outfile DotNetCore.1.0.0.RC2-SDK.Preview1-x64.exe
-.\DotNetCore.1.0.0.RC2-SDK.Preview1-x64.exe
-```
-
-### Build .Net Core Image
-```
-mkdir \dotnetcore-servercore
-cd \dotnetcore-servercore
-wget https://raw.githubusercontent.com/PatrickLang/dotnet-docker/windowsImages/1.0.0-rc2/windowsservercore/x64/core/Dockerfile -outfile Dockerfile
-docker build -t dotnetcore:windowsservercore .
+Invoke-WebRequest https://go.microsoft.com/fwlink/?LinkID=809122 -outfile DotNetCore.1.0.0-SDK.Preview2-x64.exe
+.\DotNetCore.1.0.0-SDK.Preview2-x64.exe
 ```
 
 ### Start SQL Express container
+This will pull the image, then start a container named 'mssql.' The sa password will be set to 'Password1'
 
-> TODO: switch to microsoft/... official image
+```
+docker pull microsoft/mssql-server-2014-express-windows
+docker run --name mssql -p 1433:1433 --env sa_password=Password1 microsoft/mssql-server-2014-express-windows
 ```
 
-docker run -d ... microsoft/mssql-...
+Now, get the IP address for the container running SQL. It will be needed in the next step.
+```
+docker inspect --format "{{ .NetworkSettings.Networks.nat.IPAddress }}" mssql
 ```
 
 
 ## Build MusicStore
 
-Be sure to update config.json with:
+Be sure to edit config.json with:
 - correct internal IP & password for SQL instance
 
 From musicstore\src\musicstore:
@@ -37,7 +34,7 @@ dotnet publish -o .containerbuild
 ```
 
 ## Deploy using WebListener/Kestrel
-
+This is the easiest way to deploy just for testing. It builds quickly, and runs only a single site.
 
 ### Build Container for MusicStore
 ```
@@ -51,6 +48,8 @@ docker run -p 5000:5000 -t -d musicstore
 
 
 ## Deploy using IIS
+This is recommended if you want additional features from IIS, such as serving static content.
+
 ### Build Container for MusicStore with IIS
 ```
 docker build -t musicstore-iis -f Dockerfile.iis .
@@ -65,6 +64,9 @@ docker run -p 80:80 -it musicstore-iis cmd
 
 
 # Current Issues
+
+## Exceptions in System.StringNormalizationExtensions.Normalize
+This issue is in Windows Server 2016 Technical Preview 5. Rebooting the container host will resolve it. It's fixed in a later build but I don't have a specific number yet.
 
 With SQL connection string for SQL Express in a local container:
 ```

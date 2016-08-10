@@ -1,13 +1,13 @@
-FROM dotnetcore:windowsservercore
+FROM microsoft/dotnet:1.0.0-windowsservercore-core
 RUN powershell.exe -Command Add-WindowsFeature Web-Server
+ADD aspnetcore/ /temp
+RUN powershell.exe c:\temp\SetupAspNetCore.ps1
+
 
 ADD .containerbuild/ /musicstore
 RUN mkdir c:\\musicstore\\logs
 
 WORKDIR c:/musicstore
-
-ADD aspnetcore/ /temp
-RUN powershell.exe c:\temp\SetupAspNetCore.ps1
 
 RUN powershell.exe -Command "Import-Module IISAdministration; \
                              New-WebApplication -PhysicalPath C:\musicstore -Name MusicStore -Site \"Default Web Site\""

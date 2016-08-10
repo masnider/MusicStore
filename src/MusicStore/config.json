@@ -1,17 +1,16 @@
 ﻿{
-    "AppSettings": {
-        "SiteTitle": "ASP.NET MVC Music Store"
-    },
-    "DefaultAdminUsername": "Administrator@test.com",
-    "DefaultAdminPassword": "YouShouldChangeThisPassword1!",
-    "Data": {
-        "DefaultConnection": {
-            // Use a shared (and running) LocalDB database when executing in IIS e.g.
-            // "Server=(localdb)\\.\\IIS_DB;Database=MusicStore;Trusted_Connection=False;MultipleActiveResultSets=true;User ID=iis_login;Password=********"
-            // "ConnectionString": "Server=(localdb)\\MSSQLLocalDB;Database=MusicStore;Trusted_Connection=True;MultipleActiveResultSets=true;Connect Timeout=30;"
-            // Set to use default SA account and password from: https://github.com/PatrickLang/Dockerfiles-for-windows/tree/master/sqlexpress
-            "ConnectionString": "Server=192.168.5.18;Database=MusicStore;Integrated Security=False;User Id=sa;Password=Password1;MultipleActiveResultSets=True;Connect Timeout=30"
-        }
+  "AppSettings": {
+    "SiteTitle": "ASP.NET MVC Music Store",
+    "CacheDbResults": true
+  },
+  "DefaultAdminUsername": "Administrator@test.com",
+  "DefaultAdminPassword": "YouShouldChangeThisPassword1!",
+  "Data": {
+    "DefaultConnection": {
+      // Use a shared (and running) LocalDB database when executing in IIS e.g.
+      // "ConnectionString": "Server=(localdb)\\MSSQLLocalDB;Database=MusicStore;Trusted_Connection=True;MultipleActiveResultSets=true;Connect Timeout=30;"
+      // Set to use default SA account and password from: https://github.com/PatrickLang/Dockerfiles-for-windows/tree/master/sqlexpress
+      "ConnectionString": "Server=192.168.5.18;Database=MusicStore;Integrated Security=False;User Id=sa;Password=Password1;MultipleActiveResultSets=True;Connect Timeout=30"
     }
   }
 }
