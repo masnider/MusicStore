@@ -13,4 +13,5 @@
             "ConnectionString": "Server=192.168.5.18;Database=MusicStore;Integrated Security=False;User Id=sa;Password=Password1;MultipleActiveResultSets=True;Connect Timeout=30"
         }
     }
+  }
 }

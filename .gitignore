@@ -40,3 +40,5 @@ project.lock.json
 .build/
 .testpublish/
 .containerbuild/
+launchSettings.json
+

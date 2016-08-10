@@ -174,6 +174,8 @@ namespace E2ETests
             return url.Replace("//", "/").Replace("%2F%2F", "%2F").Replace("%2F/", "%2F");
         }
 
+        // Making a request to a protected resource that this user does not have access to - should
+        // automatically redirect to the configured access denied page
         public async Task AccessStoreWithoutPermissions(string email = null)
         {
             _logger.LogInformation("Trying to access StoreManager that needs ManageStore claim with the current user : {email}", email ?? "Anonymous");
@@ -470,7 +472,7 @@ namespace E2ETests
             await ThrowIfResponseStatusNotOk(response);
             var responseContent = await response.Content.ReadAsStringAsync();
             Assert.Contains(albumName, responseContent, StringComparison.OrdinalIgnoreCase);
-            Assert.Contains("<span class=\"glyphicon glyphicon glyphicon-shopping-cart\"></span>", responseContent, StringComparison.OrdinalIgnoreCase);
+            Assert.Contains("<span class=\"glyphicon glyphicon-shopping-cart\"></span>", responseContent, StringComparison.OrdinalIgnoreCase);
             _logger.LogInformation("Verified that album is added to cart");
         }
 

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.Extensions.Logging.Console;
 using MusicStore.Components;
 using MusicStore.Models;
 
@@ -36,20 +36,16 @@ namespace MusicStore
         {
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
-            var useInMemoryStore = !_platform.IsRunningOnWindows
-                || _platform.IsRunningOnMono
-                || _platform.IsRunningOnNanoServer;
-
             // Add EF services to the services container
-            if (useInMemoryStore)
+            if (_platform.UseInMemoryStore)
             {
                 services.AddDbContext<MusicStoreContext>(options =>
-                            options.UseInMemoryDatabase());
+                    options.UseInMemoryDatabase());
             }
             else
             {
                 services.AddDbContext<MusicStoreContext>(options =>
-                            options.UseSqlServer(Configuration[StoreConfig.ConnectionStringKey.Replace("__",":")]));
+                    options.UseSqlServer(Configuration[StoreConfig.ConnectionStringKey.Replace("__", ":")]));
             }
 
             // Add Identity services to the services container
@@ -69,6 +65,8 @@ namespace MusicStore
                 });
             });
 
+            services.AddLogging();
+
             // Add MVC services to the services container
             services.AddMvc();
 
@@ -87,13 +85,14 @@ namespace MusicStore
             {
                 options.AddPolicy(
                     "ManageStore",
-                    authBuilder => {
+                    authBuilder =>
+                    {
                         authBuilder.RequireClaim("ManageStore", "Allowed");
                     });
             });
         }
 
-        //This method is invoked when ASPNET_ENV is 'Development' or is not defined
+        //This method is invoked when ASPNETCORE_ENVIRONMENT is 'Development' or is not defined
         //The allowed values are Development,Staging and Production
         public void ConfigureDevelopment(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
@@ -108,15 +107,10 @@ namespace MusicStore
 
             app.UseDatabaseErrorPage();
 
-            // Add the runtime information page that can be used by developers
-            // to see what packages are used by the application
-            // default path is: /runtimeinfo
-            app.UseRuntimeInfoPage();
-
             Configure(app);
         }
 
-        //This method is invoked when ASPNET_ENV is 'Staging'
+        //This method is invoked when ASPNETCORE_ENVIRONMENT is 'Staging'
         //The allowed values are Development,Staging and Production
         public void ConfigureStaging(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
@@ -130,7 +124,7 @@ namespace MusicStore
             Configure(app);
         }
 
-        //This method is invoked when ASPNET_ENV is 'Production'
+        //This method is invoked when ASPNETCORE_ENVIRONMENT is 'Production'
         //The allowed values are Development,Staging and Production
         public void ConfigureProduction(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {

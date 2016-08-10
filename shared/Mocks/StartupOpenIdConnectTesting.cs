@@ -42,11 +42,8 @@ namespace MusicStore
         {
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
-            //Sql client not available on mono
-            var useInMemoryStore = _platform.IsRunningOnMono;
-
             // Add EF services to the services container
-            if (useInMemoryStore)
+            if (_platform.UseInMemoryStore)
             {
                 services.AddDbContext<MusicStoreContext>(options =>
                             options.UseInMemoryDatabase());
@@ -103,11 +100,6 @@ namespace MusicStore
 
             app.UseDatabaseErrorPage();
 
-            // Add the runtime information page that can be used by developers
-            // to see what packages are used by the application
-            // default path is: /runtimeinfo
-            app.UseRuntimeInfoPage();
-
             // Configure Session.
             app.UseSession();
 
@@ -125,7 +117,7 @@ namespace MusicStore
                 BackchannelHttpHandler = new OpenIdConnectBackChannelHttpHandler(),
                 StringDataFormat = new CustomStringDataFormat(),
                 StateDataFormat = new CustomStateDataFormat(),
-                ResponseType = OpenIdConnectResponseTypes.CodeIdToken,
+                ResponseType = OpenIdConnectResponseType.CodeIdToken,
                 UseTokenLifetime = false,
 
                 Events = new OpenIdConnectEvents

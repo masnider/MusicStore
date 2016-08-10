@@ -14,14 +14,14 @@ namespace MusicStore
     /// <summary>
     /// To make runtime to load an environment based startup class, specify the environment by the following ways:
     /// 1. Drop a Microsoft.AspNetCore.Hosting.ini file in the wwwroot folder
-    /// 2. Add a setting in the ini file named 'ASPNET_ENV' with value of the format 'Startup[EnvironmentName]'.
+    /// 2. Add a setting in the ini file named 'ASPNETCORE_ENVIRONMENT' with value of the format 'Startup[EnvironmentName]'.
     ///    For example: To load a Startup class named 'StartupOpenIdConnect' the value of the env should be
-    ///    'OpenIdConnect' (eg. ASPNET_ENV=OpenIdConnect). Runtime adds a 'Startup' prefix to this
+    ///    'OpenIdConnect' (eg. ASPNETCORE_ENVIRONMENT=OpenIdConnect). Runtime adds a 'Startup' prefix to this
     ///    and loads 'StartupOpenIdConnect'.
     ///
     /// If no environment name is specified the default startup class loaded is 'Startup'.
     /// Alternative ways to specify environment are:
-    /// 1. Set the environment variable named SET ASPNET_ENV=OpenIdConnect
+    /// 1. Set the environment variable named SET ASPNETCORE_ENVIRONMENT=OpenIdConnect
     /// 2. For selfhost based servers pass in a command line variable named --env with this value. Eg:
     /// "commands": {
     ///    "web": "Microsoft.AspNetCore.Hosting --server Microsoft.AspNetCore.Server.WebListener
@@ -53,10 +53,8 @@ namespace MusicStore
         {
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
-            var useInMemoryStore = _platform.IsRunningOnMono || _platform.IsRunningOnNanoServer;
-
             // Add EF services to the services container
-            if (useInMemoryStore)
+            if (_platform.UseInMemoryStore)
             {
                 services.AddDbContext<MusicStoreContext>(options =>
                             options.UseInMemoryDatabase());
@@ -117,11 +115,6 @@ namespace MusicStore
 
             app.UseDatabaseErrorPage();
 
-            // Add the runtime information page that can be used by developers
-            // to see what packages are used by the application
-            // default path is: /runtimeinfo
-            app.UseRuntimeInfoPage();
-
             // Configure Session.
             app.UseSession();
 
@@ -136,7 +129,7 @@ namespace MusicStore
             {
                 Authority = "https://login.windows.net/[tenantName].onmicrosoft.com",
                 ClientId = "[ClientId]",
-                ResponseType = OpenIdConnectResponseTypes.CodeIdToken,
+                ResponseType = OpenIdConnectResponseType.CodeIdToken,
             });
 
             // Add MVC to the request pipeline

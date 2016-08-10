@@ -38,7 +38,7 @@ namespace E2ETests
             await OpenIdConnectTestSuite(serverType, runtimeFlavor, architecture, applicationType, applicationBaseUrl);
         }
 
-        [ConditionalTheory(Skip = "https://github.com/dotnet/corefx/issues/7440"), Trait("E2Etests", "E2Etests")]
+        [ConditionalTheory, Trait("E2Etests", "E2Etests")]
         [OSSkipCondition(OperatingSystems.Windows)]
         [InlineData(ServerType.Kestrel, RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, ApplicationType.Portable, "http://localhost:5043/")]
         [InlineData(ServerType.Kestrel, RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, ApplicationType.Standalone, "http://localhost:5044/")]
@@ -98,9 +98,11 @@ namespace E2ETests
                         "connect to the server after multiple retries");
 
                     var validator = new Validator(httpClient, httpClientHandler, _logger, deploymentResult);
+
+                    Console.WriteLine("Verifying home page");
                     await validator.VerifyHomePage(response);
 
-                    // OpenIdConnect login.
+                    Console.WriteLine("Verifying login by OpenIdConnect");
                     await validator.LoginWithOpenIdConnect();
 
                     _logger.LogInformation("Variation completed successfully.");
