@@ -1,0 +1,12 @@
+sql:
+  image: microsoft/mssql-server-2014-express-windows
+  environment:
+    - sa_password = "Password123"
+  ports:
+    - "1433" # for debug. Remove this for production
+
+musicstore:
+  build: .
+  dockerfile: Dockerfile.iis
+  ports:
+    - "80"
