@@ -106,6 +106,12 @@ net start docker
 $ENV:DOCKER_HOST="localhost:2375"
 ```
 
+Be sure to restore & publish the dotnet project:
+```
+dotnet restore
+dotnet publish -o .containerbuild
+```
+
 
 Now, bring the service up:
 ```powershell
