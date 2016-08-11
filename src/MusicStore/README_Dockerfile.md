@@ -63,6 +63,56 @@ docker run -p 80:80 -it musicstore-iis cmd
 ```
 
 
+# Tying it all together with compose
+Get Docker-Compose:
+```powershell
+wget https://github.com/docker/compose/releases/download/1.8.0/docker-compose-Windows-x86_64.exe -UseBasicParsing -OutFile docker-compose.exe
+copy .\docker-compose.exe 'C:\Program Files\docker\'
+```
+
+
+The docker-compose 1.8 binary seems to crash using named pipes:
+```
+PS C:\MusicStore\src\MusicStore> docker-compose up
+Traceback (most recent call last):
+  File "<string>", line 3, in <module>
+  File "compose\cli\main.py", line 61, in main
+  File "compose\cli\main.py", line 113, in perform_command
+  File "compose\cli\main.py", line 835, in up
+  File "compose\project.py", line 372, in up
+  File "compose\project.py", line 539, in warn_for_swarm_mode
+  File "site-packages\docker\api\daemon.py", line 33, in info
+  File "site-packages\docker\utils\decorators.py", line 47, in inner
+  File "site-packages\docker\client.py", line 140, in _get
+  File "site-packages\requests\sessions.py", line 477, in get
+  File "site-packages\requests\sessions.py", line 465, in request
+  File "site-packages\requests\sessions.py", line 573, in send
+  File "site-packages\requests\adapters.py", line 370, in send
+  File "site-packages\requests\packages\urllib3\connectionpool.py", line 544, in urlopen
+  File "site-packages\requests\packages\urllib3\connectionpool.py", line 374, in _make_request
+  File "httplib.py", line 1133, in getresponse
+  File "httplib.py", line 390, in __init__
+  File "site-packages\docker\transport\npipesocket.py", line 99, in makefile
+ValueError: buffer size must be strictly positive
+docker-compose returned -1
+```
+
+As a workaround I enabled the insecure TCP port, then set DOCKER_HOST to use it
+```powershell
+net stop docker
+. 'C:\Program Files\docker\dockerd.exe' --unregister-service
+. 'C:\Program Files\docker\dockerd.exe' --register-service -H npipe:// -H 0.0.0.0:2375
+net start docker
+$ENV:DOCKER_HOST="localhost:2375"
+```
+
+
+Now, bring the service up:
+```powershell
+docker-compose up
+```
+
+
 # Current Issues
 
 ## Exceptions in System.StringNormalizationExtensions.Normalize
