@@ -10,3 +10,4 @@ musicstore:
   dockerfile: Dockerfile.iis
   ports:
     - "80"
+  tty: true
