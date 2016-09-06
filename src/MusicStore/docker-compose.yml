@@ -1,13 +1,22 @@
-sql:
-  image: microsoft/mssql-server-2014-express-windows
-  environment:
-    - sa_password = "Password123"
-  ports:
-    - "1433" # for debug. Remove this for production
+version: '2'
+services:
+  sql:
+    image: microsoft/mssql-server-2014-express-windows
+    environment:
+      - sa_password = "Password123"
+    ports:
+      - "1433:1433" # for debug. Remove this for production
+    tty: true
 
-musicstore:
-  build: .
-  dockerfile: Dockerfile.iis
-  ports:
-    - "80"
-  tty: true
+  musicstore:
+    build:
+      context: .
+      dockerfile: Dockerfile.iis
+    ports:
+      - "80:80"
+    tty: true
+
+networks:
+  default:
+    external:
+      name: nat
