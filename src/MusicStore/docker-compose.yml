@@ -3,7 +3,7 @@ services:
   sql:
     image: microsoft/mssql-server-2014-express-windows
     environment:
-      - sa_password = "Password123"
+      sa_password: "Password123"
     ports:
       - "1433:1433" # for debug. Remove this for production
     tty: true
