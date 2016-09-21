@@ -1,9 +1,9 @@
 version: '2'
 services:
   sql:
-    image: microsoft/mssql-server-2014-express-windows
+    image: sqlserver:2016
     environment:
-      sa_password: "Password123"
+      SA_PASSWORD: "Bar123"
     ports:
       - "1433:1433" # for debug. Remove this for production
     tty: true
@@ -11,7 +11,7 @@ services:
   musicstore:
     build:
       context: .
-      dockerfile: Dockerfile.iis
+      dockerfile: Dockerfile
     ports:
       - "80:80"
     tty: true
