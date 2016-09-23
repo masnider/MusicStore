@@ -1,3 +1,12 @@
+## Demo script
+
+ 1. $Env:DOCKER_HOST = "vm-ip:2375"
+ 2. Get-Content .\docker\dotnet\Dockerfile | docker build -t microsoft/dotnet:1.0.0-preview2-windowsservercore-sdk -
+ 3. Get-Content .\docker\mssql-server-2016-express\Dockerfile | docker build -t sqlserver:2016 -
+ 4. docker build -t musicstore -f .\src\MusicStore\Dockerfile .\src\MusicStore\.
+ 5. .\start.ps1
+ 6. open http://vm-ip:5000/ in browser
+
 # MusicStore application
 
 AppVeyor: [![AppVeyor](https://ci.appveyor.com/api/projects/status/ja8a7j6jscj7k3xa/branch/dev?svg=true)](https://ci.appveyor.com/project/aspnetci/MusicStore/branch/dev)
