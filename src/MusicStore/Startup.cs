@@ -44,9 +44,9 @@ namespace MusicStore
             }
             else
             {
-                System.Console.WriteLine("Using Connectionstring: {0}", Configuration["Data:DefaultConnection:ConnectionString"]);
+                System.Console.WriteLine("Using Connectionstring: {0}", Configuration["ConnectionString"]);
                 services.AddDbContext<MusicStoreContext>(options =>
-                    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
+                    options.UseSqlServer(Configuration["ConnectionString"]));
             }
 
             // Add Identity services to the services container
