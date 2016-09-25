@@ -26,7 +26,7 @@ RUN (New-Object System.Net.WebClient).DownloadFile($env:DOWNLOAD_URL, 'Setup.exe
 	set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql13.MSSQLServer\mssqlserver\supersocketnetlib\tcp\ipall' -name tcpdynamicports -value '' ; \
 	set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql13.MSSQLServer\mssqlserver\supersocketnetlib\tcp\ipall' -name tcpport -value 1433 ; \
 	set-itemproperty -path 'HKLM:\software\microsoft\microsoft sql server\mssql13.MSSQLServer\mssqlserver\\' -name LoginMode -value 2 ; \
-	Remove-Item Setup.exe
+	Remove-Item -Recurse -Force Setup,Setup.exe
 
 RUN [Environment]::SetEnvironmentVariable('PATH', $env:ProgramFiles + '\Microsoft SQL Server\130\Tools\Binn;' + $env:PATH, [EnvironmentVariableTarget]::Machine);
 
