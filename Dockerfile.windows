@@ -1,0 +1,20 @@
+FROM microsoft/dotnet:1.0.0-preview2-windowsservercore-sdk
+
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop';"]
+
+# REMARK: Temporary workaround for Windows DNS client weirdness
+RUN set-itemproperty -path 'HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters' -Name ServerPriorityTimeLimit -Value 0 -Type DWord
+
+RUN New-Item -Path \MusicStore\samples\MusicStore.Standalone -Type Directory
+WORKDIR MusicStore
+
+ADD samples/MusicStore.Standalone/project.json samples/MusicStore.Standalone/project.json
+ADD NuGet.config .
+RUN dotnet restore --no-cache .\samples\MusicStore.Standalone
+
+ADD samples samples
+RUN dotnet build .\samples\MusicStore.Standalone
+
+EXPOSE 5000
+ENV ASPNETCORE_URLS http://0.0.0.0:5000
+CMD dotnet run -p .\samples\MusicStore.Standalone
