@@ -10,7 +10,7 @@ WORKDIR MusicStore
 
 ADD samples/MusicStore.Standalone/project.json samples/MusicStore.Standalone/project.json
 ADD NuGet.config .
-RUN dotnet restore --no-cache .\samples\MusicStore.Standalone
+RUN dotnet restore .\samples\MusicStore.Standalone
 
 ADD samples samples
 RUN dotnet build .\samples\MusicStore.Standalone
