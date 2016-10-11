@@ -5,7 +5,7 @@ services:
     environment:
       sa_password: "Password1"
     ports:
-      - "1433:1433" # for debug. Remove this for production
+      - "1433:1433" # REMARK: This is currently required, needs investigation
 
   web:
     build:
