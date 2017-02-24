@@ -1,17 +1,21 @@
-FROM microsoft/dotnet:1.1-sdk-msbuild
+FROM microsoft/dotnet:1.1-sdk-msbuild-nanoserver
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 RUN New-Item -Path \MusicStore\samples\MusicStore -Type Directory
+RUN New-Item -Path build -Type Directory
 WORKDIR MusicStore
 
 ADD samples/MusicStore/MusicStore.csproj samples/MusicStore/MusicStore.csproj
 ADD NuGet.config .
+ADD version.props .
+ADD build/*.props build/
 RUN dotnet restore .\samples\MusicStore
 
 ADD samples samples
-RUN dotnet build .\samples\MusicStore
+RUN dotnet build --framework netcoreapp1.1 .\samples\MusicStore
 
 EXPOSE 5000
 ENV ASPNETCORE_URLS http://0.0.0.0:5000
-CMD dotnet run -p .\samples\MusicStore
+WORKDIR /MusicStore/samples/MusicStore
+CMD dotnet run --framework netcoreapp1.1
