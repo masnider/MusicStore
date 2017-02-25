@@ -1,4 +1,4 @@
-version: '3'
+version: '2.1'
 services:
   db:
     image: microsoft/mssql-server-windows-developer
@@ -7,7 +7,10 @@ services:
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433" # REMARK: This is currently required, needs investigation
-
+    healthcheck:
+      test: [ "CMD", "sqlcmd", "-Q", "select 1" ]
+      interval: 1s
+      retries: 20
   web:
     build:
       context: .
@@ -15,7 +18,8 @@ services:
     environment:
       - "Data:DefaultConnection:ConnectionString=Server=db,1433;Database=MusicStore;User Id=sa;Password=Password1;MultipleActiveResultSets=True"
     depends_on:
-      - "db"
+      db:
+        condition: service_healthy
     ports:
       - "5000:5000"
 
