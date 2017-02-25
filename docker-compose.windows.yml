@@ -8,7 +8,7 @@ services:
     ports:
       - "1433:1433" # REMARK: This is currently required, needs investigation
     healthcheck:
-      test: [ "CMD", "sqlcmd", "-Q", "select 1" ]
+      test: [ "CMD", "sqlcmd", "-U", "sa", "-P", "Password1", "-Q", "select 1" ]
       interval: 1s
       retries: 20
   web:
