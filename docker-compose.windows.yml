@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3'
 services:
   db:
     image: microsoft/mssql-server-windows-developer
@@ -6,7 +6,7 @@ services:
       sa_password: "Password1"
       ACCEPT_EULA: "Y"
     ports:
-      - "1433:1433" # REMARK: This is currently required, needs investigation
+      - "1433:1433"
     healthcheck:
       test: [ "CMD", "sqlcmd", "-U", "sa", "-P", "Password1", "-Q", "select 1" ]
       interval: 1s
@@ -18,10 +18,9 @@ services:
     environment:
       - "Data:DefaultConnection:ConnectionString=Server=db,1433;Database=MusicStore;User Id=sa;Password=Password1;MultipleActiveResultSets=True"
     depends_on:
-      db:
-        condition: service_healthy
+       - db
     ports:
-      - "5000:5000"
+      - "8080:8080"
 
 networks:
   default:
