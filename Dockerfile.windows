@@ -15,4 +15,4 @@ EXPOSE 8080
 ENV ASPNETCORE_URLS http://0.0.0.0:8080
 
 WORKDIR MusicStore/samples/MusicStore/
-CMD dotnet run --framework netcoreapp1.1 --project MusicStore.csproj
+CMD dotnet run --framework netcoreapp1.1
