@@ -2,7 +2,7 @@ FROM microsoft/aspnetcore-build:1.1.1-nanoserver
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
-COPY /samples/MusicStore/* MusicStore/samples/MusicStore/
+COPY /samples/MusicStore/ MusicStore/samples/MusicStore/
 COPY config.json config.json
 COPY /build MusicStore/build
 COPY version.props /MusicStore/version.props
